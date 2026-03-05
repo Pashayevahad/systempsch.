@@ -12,7 +12,7 @@ const ComplexSystems = () => {
         }, 1000);
 
         // Direct Stream Link from Google Drive for 'Ants_forming_bridge_across_void'
-        const antsVideoUrl = 'https://drive.google.com/uc?export=download&id=1sPqIilfEk29c1RsaymUSF2e84ci3TMCD';
+        const antsVideoUrl = 'https://drive.google.com/uc?export=download&id=1sPqIilfEk29c1RsaymUSF2e84ci3TMCD&confirm=t';
 
         // Lazy load the background video
         const loadTimer = setTimeout(() => {

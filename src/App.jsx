@@ -6,7 +6,8 @@ const Hero = () => {
 
   useEffect(() => {
     // Direct Stream Link for 'Flight_through_forest_to_clouds'
-    const forestVideoUrl = 'https://drive.google.com/uc?export=download&id=13U1UUPJGhSmVsggra6jIGmIJesY-zZoJ';
+    // Includes the &confirm=t bypass for high-quality (large) files
+    const forestVideoUrl = 'https://drive.google.com/uc?export=download&id=13U1UUPJGhSmVsggra6jIGmIJesY-zZoJ&confirm=t';
 
     // Set source and ensure it plays
     setVideoSrc(forestVideoUrl);

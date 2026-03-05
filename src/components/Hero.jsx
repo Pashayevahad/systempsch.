@@ -30,7 +30,7 @@ const Hero = () => {
 
         // Lazy load the background video to ensure initial page paints quickly without blocking
         const loadTimer = setTimeout(() => {
-            setVideoSrc('/Flight_through_forest_to_clouds_delpmaspu_.mp4');
+            setVideoSrc('https://drive.google.com/uc?export=download&id=13U1UUPJGhSmVsggra6jIGmIJesY-zZoJ&confirm=t');
             if (videoRef.current) {
                 videoRef.current.load();
                 videoRef.current.play().catch(e => console.log('Autoplay possibly blocked by browser policy', e));
