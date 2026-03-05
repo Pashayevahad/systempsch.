@@ -22,6 +22,7 @@ const ComplexSystems = () => {
                 dirPath="/Ants_forming_bridge_across_void_images"
                 prefix="Ants_forming_bridge_across_void_delpmaspu__"
                 totalFrames={80}
+                fps={24}
             />
 
             {/* Gradient overlay for better text contrast over the video */}

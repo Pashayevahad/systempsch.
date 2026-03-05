@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
 const ImageSequenceCanvas = ({
     dirPath,
@@ -11,9 +11,10 @@ const ImageSequenceCanvas = ({
     const canvasRef = useRef(null);
     const [images, setImages] = useState([]);
     const [loadedCount, setLoadedCount] = useState(0);
-    const requestRef = useRef();
-    const previousTimeRef = useRef();
+    const requestRef = useRef(null);
+    const previousTimeRef = useRef(null);
     const currentFrameRef = useRef(0);
+    const loopRunningRef = useRef(false);
 
     // Preload images
     useEffect(() => {
@@ -26,7 +27,6 @@ const ImageSequenceCanvas = ({
             for (let i = 0; i < totalFrames; i++) {
                 promises.push(new Promise((resolve) => {
                     const img = new Image();
-                    // Format number with leading zeros (e.g., 000, 001 ... 079)
                     const paddedIndex = String(i).padStart(3, '0');
                     img.src = `${dirPath}/${prefix}${paddedIndex}${extension}`;
 
@@ -40,13 +40,11 @@ const ImageSequenceCanvas = ({
                     };
                     img.onerror = () => {
                         console.warn(`Failed to load image: ${img.src}`);
-                        resolve(); // Resolve anyway to avoid blocking
+                        resolve();
                     };
                 }));
             }
 
-            // We wait for all to load, or at least attempt to.
-            // The canvas logic will skip frames if they aren't loaded yet.
             await Promise.all(promises);
             if (isMounted) {
                 setImages(loadedImages);
@@ -60,33 +58,7 @@ const ImageSequenceCanvas = ({
         };
     }, [dirPath, prefix, totalFrames, extension]);
 
-    const animate = time => {
-        if (previousTimeRef.current != undefined) {
-            const deltaTime = time - previousTimeRef.current;
-            // Time per frame in ms
-            const frameTime = 1000 / fps;
-
-            if (deltaTime >= frameTime) {
-                // Determine how many frames we should advance based on time passed
-                // This ensures smooth playback even if we miss a paint
-                const framesToAdvance = Math.floor(deltaTime / frameTime);
-
-                if (framesToAdvance > 0) {
-                    currentFrameRef.current = (currentFrameRef.current + framesToAdvance) % totalFrames;
-                    previousTimeRef.current = time - (deltaTime % frameTime);
-
-                    drawFrame(currentFrameRef.current);
-                }
-            }
-        } else {
-            previousTimeRef.current = time;
-            drawFrame(currentFrameRef.current);
-        }
-
-        requestRef.current = requestAnimationFrame(animate);
-    };
-
-    const drawFrame = (frameIndex) => {
+    const drawFrame = useCallback((frameIndex) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -94,16 +66,13 @@ const ImageSequenceCanvas = ({
 
         const img = images[frameIndex];
 
-        // Only draw if the image has actually loaded
         if (img) {
-            // Check canvas dimensions, update if needed to match window/container
             const parent = canvas.parentElement;
             if (parent && (canvas.width !== parent.clientWidth || canvas.height !== parent.clientHeight)) {
                 canvas.width = parent.clientWidth;
                 canvas.height = parent.clientHeight;
             }
 
-            // Object-cover style drawing
             const cw = canvas.width;
             const ch = canvas.height;
             const iw = img.width;
@@ -118,27 +87,50 @@ const ImageSequenceCanvas = ({
             ctx.clearRect(0, 0, cw, ch);
             ctx.drawImage(img, x, y, w, h);
         }
-    };
+    }, [images]);
+
+    const animate = useCallback((time) => {
+        if (!loopRunningRef.current) return;
+
+        if (previousTimeRef.current == null) {
+            previousTimeRef.current = time;
+            drawFrame(currentFrameRef.current);
+        } else {
+            const deltaTime = time - previousTimeRef.current;
+            const frameTime = 1000 / fps;
+
+            if (deltaTime >= frameTime) {
+                const framesToAdvance = Math.floor(deltaTime / frameTime);
+                if (framesToAdvance > 0) {
+                    currentFrameRef.current = (currentFrameRef.current + framesToAdvance) % totalFrames;
+                    previousTimeRef.current = time - (deltaTime % frameTime);
+                    drawFrame(currentFrameRef.current);
+                }
+            }
+        }
+
+        requestRef.current = requestAnimationFrame(animate);
+    }, [drawFrame, fps, totalFrames]);
 
     useEffect(() => {
-        // Only start animating if we have at least one image loaded to show
-        if (loadedCount > 0) {
+        if (loadedCount > 0 && !loopRunningRef.current) {
+            loopRunningRef.current = true;
             requestRef.current = requestAnimationFrame(animate);
         }
 
         return () => {
+            loopRunningRef.current = false;
             if (requestRef.current) {
                 cancelAnimationFrame(requestRef.current);
             }
         };
-    }, [loadedCount, images, fps, totalFrames]);
+    }, [loadedCount, animate]);
 
-    // Draw the very first frame as soon as it's ready, even before animation loop kicks in fully
     useEffect(() => {
-        if (images[0] && currentFrameRef.current === 0) {
+        if (images[0] && currentFrameRef.current === 0 && loadedCount === 1) {
             drawFrame(0);
         }
-    }, [images]);
+    }, [images, loadedCount, drawFrame]);
 
     return (
         <canvas
