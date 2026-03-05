@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +10,8 @@ const Navbar = () => {
 
                 {/* Desktop Navigation Group */}
                 <div className="hidden lg:flex space-x-8 items-center h-full">
-                    <a className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Complex System</a>
-                    <a className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Chaos Theory</a>
+                    <Link to="/complex-systems" className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold">Complex System</Link>
+                    <Link to="/" className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold">Chaos Theory</Link>
                     <a className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">System Thinking</a>
                     <div className="h-4 w-px bg-white/20 mx-2"></div>
                     <a className="font-serif italic text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Individual Psychology</a>
@@ -46,8 +47,8 @@ const Navbar = () => {
                 className={`lg:hidden absolute top-16 left-0 w-full bg-[#121212]/95 backdrop-blur-xl border-b border-[#FFD700]/10 overflow-hidden transition-all duration-300 ease-in-out ${isOpen ? 'max-h-[500px] py-4' : 'max-h-0 py-0'}`}
             >
                 <div className="flex flex-col space-y-4 px-6">
-                    <a className="font-mono uppercase tracking-widest text-white hover:text-[#FFD700] transition-colors text-sm font-bold block py-2" href="#">Complex System</a>
-                    <a className="font-mono uppercase tracking-widest text-white hover:text-[#FFD700] transition-colors text-sm font-bold block py-2" href="#">Chaos Theory</a>
+                    <Link to="/complex-systems" className="font-mono uppercase tracking-widest text-white hover:text-[#FFD700] transition-colors text-sm font-bold block py-2" onClick={() => setIsOpen(false)}>Complex System</Link>
+                    <Link to="/" className="font-mono uppercase tracking-widest text-white hover:text-[#FFD700] transition-colors text-sm font-bold block py-2" onClick={() => setIsOpen(false)}>Chaos Theory</Link>
                     <a className="font-mono uppercase tracking-widest text-white hover:text-[#FFD700] transition-colors text-sm font-bold block py-2" href="#">System Thinking</a>
 
                     <div className="w-full h-px bg-white/10 my-2"></div>
