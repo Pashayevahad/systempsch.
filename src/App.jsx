@@ -1,50 +1,21 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Hero from './components/Hero';
+import ComplexSystems from './pages/ComplexSystems';
+import Navbar from './components/Navbar';
 
-const Hero = () => {
-  const [videoSrc, setVideoSrc] = useState('');
-  const videoRef = useRef(null);
-
-  useEffect(() => {
-    // Direct Stream Link for 'Flight_through_forest_to_clouds'
-    // Includes the &confirm=t bypass for high-quality (large) files
-    const forestVideoUrl = 'https://drive.google.com/uc?export=download&id=13U1UUPJGhSmVsggra6jIGmIJesY-zZoJ&confirm=t';
-
-    // Set source and ensure it plays
-    setVideoSrc(forestVideoUrl);
-    if (videoRef.current) {
-      videoRef.current.load();
-      videoRef.current.play().catch(e => console.log('Autoplay blocked', e));
-    }
-  }, []);
-
+const App = () => {
   return (
-    <section className="relative w-full h-screen overflow-hidden bg-charcoal">
-      {/* Cloud-streamed Background Video */}
-      <video
-        ref={videoRef}
-        autoPlay
-        loop
-        muted
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
-      >
-        {videoSrc && <source src={videoSrc} type="video/mp4" />}
-        Your browser does not support the video tag.
-      </video>
-
-      {/* Glassmorphic Overlay */}
-      <div className="absolute inset-0 bg-black/40 z-10"></div>
-
-      <div className="relative z-20 flex flex-col items-center justify-center h-full text-center px-6">
-        <h1 className="text-5xl md:text-7xl font-bold text-white mb-4 tracking-tighter">
-          THE ASCENT
-        </h1>
-        <p className="font-mono text-[#FFD700] text-sm uppercase tracking-[0.3em]">
-          Navigating Complexity in Psychological Systems
-        </p>
+    <Router>
+      <div className="w-full min-h-screen bg-charcoal overflow-x-hidden">
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Hero />} />
+          <Route path="/complex-systems" element={<ComplexSystems />} />
+        </Routes>
       </div>
-    </section>
+    </Router>
   );
 };
 
-export default Hero;
+export default App;
