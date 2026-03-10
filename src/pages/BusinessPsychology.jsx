@@ -45,7 +45,7 @@ const BusinessPsychology = () => {
 
     return (
         <section
-            className="relative w-full h-screen overflow-hidden bg-charcoal text-white"
+            className="relative w-full h-screen overflow-hidden bg-transparent text-white"
             data-purpose="business-psychology-section"
         >
             {/* Background Image Sequence */}
@@ -55,10 +55,10 @@ const BusinessPsychology = () => {
                 totalFrames={8}
                 fps={1}
                 extension=".png"
-                className="absolute inset-0 w-full h-full object-cover -z-10"
+                className="absolute inset-0 w-full h-full object-cover z-0"
             />
             {/* Subtle gradient to ensure text remains somewhat readable if it overlaps, though positioned carefully */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent -z-10 pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-0 pointer-events-none"></div>
 
             {/* Content Overlay */}
             <div
