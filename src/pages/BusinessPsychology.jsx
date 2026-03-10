@@ -5,6 +5,7 @@ import { supabase } from '../lib/supabase';
 const BusinessPsychology = () => {
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(true);
+    const [showOverlay, setShowOverlay] = useState(false);
 
     useEffect(() => {
         const fetchContent = async () => {
@@ -24,7 +25,7 @@ const BusinessPsychology = () => {
                 }
             } catch (err) {
                 console.warn("Could not fetch content from Supabase. Falling back to default.", err.message);
-                setContent('SYSTEM.PROTOCOL.INIT\n\nTransition sequence initialized. Converting realistic boardroom structures into underlying technical blueprints.\n\nAnalyzing psychological frameworks...\nAligning variables...\nExecuting at 0.5 Hz sync rate.');
+                setContent('SYSTEM.PROTOCOL.INIT\n\nTransition sequence initialized. Converting realistic boardroom structures into underlying technical blueprints.\n\nAnalyzing psychological frameworks...\nAligning variables...\nExecuting at 1 Hz sync rate.\n\n[Nodes 1-6 Intact]\nConflict resolution matrix active.');
             } finally {
                 setLoading(false);
             }
@@ -33,63 +34,69 @@ const BusinessPsychology = () => {
         fetchContent();
     }, []);
 
+    useEffect(() => {
+        // Trigger fade-in after 10 seconds
+        const overlayTimer = setTimeout(() => {
+            setShowOverlay(true);
+        }, 10000);
+
+        return () => clearTimeout(overlayTimer);
+    }, []);
+
     return (
         <section
-            className="w-full h-screen overflow-hidden grid grid-cols-1 md:grid-cols-2 bg-charcoal"
-            style={{ gridTemplateColumns: 'minmax(0, 1fr) minmax(0, 1fr)' }}
+            className="relative w-full h-screen overflow-hidden bg-charcoal text-white"
             data-purpose="business-psychology-section"
         >
+            {/* Background Image Sequence */}
+            <ImageSequenceCanvas
+                dirPath="/Business_Psych_images"
+                prefix="business_psych_"
+                totalFrames={8}
+                fps={1}
+                extension=".png"
+                className="absolute inset-0 w-full h-full object-cover -z-10"
+            />
+            {/* Subtle gradient to ensure text remains somewhat readable if it overlaps, though positioned carefully */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent -z-10 pointer-events-none"></div>
 
-            {/* Left Column - Image Sequence */}
-            <div className="relative w-full h-full border-r border-[#FFD700]/10 bg-black">
-                <ImageSequenceCanvas
-                    dirPath="/Business_Psych_images"
-                    prefix="business_psych_"
-                    totalFrames={8}
-                    fps={0.5}
-                    extension=".png"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent pointer-events-none"></div>
-
-                {/* Overlay text on image */}
-                <div className="absolute bottom-8 left-8 z-10">
-                    <p className="font-mono text-[#FFD700] uppercase tracking-widest text-xs opacity-70">
-                        Visual Stream [0.5 FPS]
+            {/* Content Overlay */}
+            <div
+                className={`absolute bottom-10 right-10 max-w-lg w-full bg-black/80 p-8 border border-white/10 backdrop-blur-md transition-opacity duration-1000 ease-in-out z-20 ${showOverlay ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                    }`}
+            >
+                <div className="mb-6 border-b border-white/10 pb-4 flex items-center justify-between">
+                    <p className="font-mono text-[#FFD700] uppercase tracking-[0.2em] text-xs font-semibold">
+                        Business Psychology
                     </p>
+                    <div className="flex animate-pulse gap-1">
+                        <div className="w-1 h-3 bg-[#FFD700]"></div>
+                        <div className="w-1 h-3 bg-[#FFD700] opacity-50"></div>
+                    </div>
+                </div>
+
+                <div className="font-mono text-white/80 text-sm md:text-base leading-relaxed whitespace-pre-wrap">
+                    {loading ? (
+                        <span className="text-[#FFD700] animate-pulse">Requesting payload from /content database...</span>
+                    ) : (
+                        content
+                    )}
+                </div>
+
+                <div className="mt-8 flex items-center gap-4">
+                    <div className="flex-grow h-px bg-white/5"></div>
+                    <span className="font-mono text-[10px] text-[#FFD700]/80 tracking-widest uppercase">
+                        State: Architectural Blueprint
+                    </span>
                 </div>
             </div>
 
-            {/* Right Column - Text Content */}
-            <div className="relative w-full h-full flex flex-col justify-center p-12 lg:p-24 bg-[#121212] overflow-y-auto">
-                <div className="max-w-2xl">
-                    <div className="mb-12 border-b border-white/10 pb-6 flex items-center justify-between">
-                        <p className="font-mono text-white/50 uppercase tracking-[0.2em] text-sm">
-                            Business Psychology
-                        </p>
-                        <div className="flex animate-pulse gap-1">
-                            <div className="w-1 h-3 bg-[#FFD700]"></div>
-                            <div className="w-1 h-3 bg-[#FFD700] opacity-50"></div>
-                        </div>
-                    </div>
-
-                    <div className="font-mono text-white/80 text-base md:text-lg leading-relaxed whitespace-pre-wrap">
-                        {loading ? (
-                            <span className="text-[#FFD700] animate-pulse">Requesting payload from /content database...</span>
-                        ) : (
-                            content
-                        )}
-                    </div>
-
-                    <div className="mt-16 flex items-center gap-6">
-                        <div className="flex-grow h-px bg-white/5"></div>
-                        <span className="font-mono text-[10px] text-[#FFD700]/80 tracking-widest uppercase">
-                            State: Architectural Blueprint
-                        </span>
-                    </div>
-                </div>
+            {/* Indicator that visual stream is running */}
+            <div className="absolute top-24 left-10 z-10">
+                <p className="font-mono text-white/50 uppercase tracking-widest text-[10px] bg-black/50 px-2 py-1 rounded mix-blend-difference">
+                    Visual Stream [1.0 FPS]
+                </p>
             </div>
-
         </section>
     );
 };
