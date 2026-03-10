@@ -6,7 +6,9 @@ const ImageSequenceCanvas = ({
     totalFrames = 80,
     fps = 24,
     extension = '.jpg',
-    className = "absolute inset-0 w-full h-full object-cover z-0"
+    className = "absolute inset-0 w-full h-full object-cover z-0",
+    loop = true,
+    onComplete = null
 }) => {
     const canvasRef = useRef(null);
     const [images, setImages] = useState([]);
@@ -102,9 +104,18 @@ const ImageSequenceCanvas = ({
             if (deltaTime >= frameTime) {
                 const framesToAdvance = Math.floor(deltaTime / frameTime);
                 if (framesToAdvance > 0) {
-                    currentFrameRef.current = (currentFrameRef.current + framesToAdvance) % totalFrames;
-                    previousTimeRef.current = time - (deltaTime % frameTime);
-                    drawFrame(currentFrameRef.current);
+                    const nextFrame = currentFrameRef.current + framesToAdvance;
+                    if (!loop && nextFrame >= totalFrames - 1) {
+                        currentFrameRef.current = totalFrames - 1;
+                        drawFrame(currentFrameRef.current);
+                        loopRunningRef.current = false;
+                        if (onComplete) onComplete();
+                        return; // Stop animating
+                    } else {
+                        currentFrameRef.current = nextFrame % totalFrames;
+                        previousTimeRef.current = time - (deltaTime % frameTime);
+                        drawFrame(currentFrameRef.current);
+                    }
                 }
             }
         }
