@@ -15,7 +15,7 @@ const Navbar = () => {
                     <a className="font-mono uppercase tracking-widest text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">System Thinking</a>
                     <div className="h-4 w-px bg-white/20 mx-2"></div>
                     <a className="font-serif italic text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Individual Psychology</a>
-                    <a className="font-serif italic text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Business Psych</a>
+                    <Link to="/business-psychology" className="font-serif italic text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold">Business Psych</Link>
                     <a className="font-serif italic text-white/80 hover:text-[#FFD700] transition-colors text-[1.1rem] font-bold" href="#">Food Psych</a>
                 </div>
 
@@ -54,7 +54,7 @@ const Navbar = () => {
                     <div className="w-full h-px bg-white/10 my-2"></div>
 
                     <a className="font-serif italic text-white hover:text-[#FFD700] transition-colors text-lg font-bold block py-2" href="#">Individual Psychology</a>
-                    <a className="font-serif italic text-white hover:text-[#FFD700] transition-colors text-lg font-bold block py-2" href="#">Business Psych</a>
+                    <Link to="/business-psychology" className="font-serif italic text-white hover:text-[#FFD700] transition-colors text-lg font-bold block py-2" onClick={() => setIsOpen(false)}>Business Psych</Link>
                     <a className="font-serif italic text-white hover:text-[#FFD700] transition-colors text-lg font-bold block py-2" href="#">Food Psych</a>
                 </div>
             </div>

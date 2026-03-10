@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Hero from './components/Hero';
 import ComplexSystems from './pages/ComplexSystems';
+import BusinessPsychology from './pages/BusinessPsychology';
 import Navbar from './components/Navbar';
 
 const App = () => {
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Hero />} />
           <Route path="/complex-systems" element={<ComplexSystems />} />
+          <Route path="/business-psychology" element={<BusinessPsychology />} />
         </Routes>
       </div>
     </Router>
