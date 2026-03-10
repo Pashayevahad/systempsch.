@@ -80,7 +80,7 @@ const BusinessPsychology = () => {
                     dirPath="/Business_Psych_images"
                     prefix="business_psych_"
                     totalFrames={8}
-                    fps={0.8}
+                    fps={0.65}
                     extension=".png"
                     className="absolute inset-0 w-full h-full object-cover z-0"
                 />
