@@ -45,7 +45,7 @@ const ComplexSystems = () => {
 
             {/* Full Screen Overlay Menu */}
             <div
-                className={`fixed inset-0 bg-[#0A0A0A] z-[100] transition-opacity duration-300 flex flex-col items-center justify-center ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+                className={`fixed inset-0 z-[100] transition-all duration-500 ease-in-out flex flex-col justify-center items-start pl-8 md:pl-24 pt-16 ${isMenuOpen ? 'opacity-100 pointer-events-auto bg-gradient-to-r from-[#0A0A0A] via-[#0A0A0A]/90 to-black/20 backdrop-blur-[2px]' : 'opacity-0 pointer-events-none bg-black/0'}`}
             >
                 {/* Close Button */}
                 <button
@@ -65,9 +65,8 @@ const ComplexSystems = () => {
                     </svg>
                 </div>
 
-
                 {/* Parts Menu List */}
-                <div className="flex flex-col space-y-12 w-full max-w-3xl px-8 mt-16">
+                <div className="flex flex-col space-y-12 w-full max-w-2xl px-4 mt-8">
                     <div className="border-l-2 border-[#FFD700] pl-6 py-1">
                         <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
                             <span className="block mb-1">Part I: Biological and</span>
@@ -105,7 +104,7 @@ const ComplexSystems = () => {
                 </div>
 
                 {/* Footer Section */}
-                <div className="absolute bottom-16 w-full max-w-md px-12 text-center">
+                <div className="absolute bottom-12 left-8 md:left-24 w-full max-w-sm px-4">
                     <div className="w-full h-px bg-white/10 mb-6"></div>
                     <p className="font-mono text-white/40 text-[10px] tracking-[0.3em] uppercase">
                         Systems Intelligence Framework<br />
