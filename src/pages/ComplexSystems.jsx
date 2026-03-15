@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import ImageSequenceCanvas from '../components/ImageSequenceCanvas';
 
 const ComplexSystems = () => {
     const [showTitle, setShowTitle] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     useEffect(() => {
         // Reveal text after 1 second
@@ -27,6 +29,90 @@ const ComplexSystems = () => {
 
             {/* Gradient overlay for better text contrast over the video */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/50 to-transparent z-10 pointer-events-none"></div>
+
+            {/* Hamburger Menu Icon (Top Left) */}
+            <div className="absolute top-[4.5rem] left-6 z-40">
+                <button
+                    onClick={() => setIsMenuOpen(true)}
+                    className="text-white hover:text-[#FFD700] transition-colors p-2 focus:outline-none bg-transparent border-none"
+                    aria-label="Open Parts Menu"
+                >
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+
+            {/* Full Screen Overlay Menu */}
+            <div
+                className={`fixed inset-0 bg-[#0A0A0A] z-[100] transition-opacity duration-300 flex flex-col items-center justify-center ${isMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+            >
+                {/* Close Button */}
+                <button
+                    onClick={() => setIsMenuOpen(false)}
+                    className="absolute top-8 right-8 text-[#FFD700] hover:text-white transition-colors focus:outline-none bg-transparent border-none p-2"
+                    aria-label="Close Parts Menu"
+                >
+                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+
+                {/* Hamburger Icon top left for overlay context */}
+                <div className="absolute top-[4.5rem] left-6 z-40">
+                    <svg className="w-8 h-8 text-white/50" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </div>
+
+
+                {/* Parts Menu List */}
+                <div className="flex flex-col space-y-12 w-full max-w-3xl px-8 mt-16">
+                    <div className="border-l-2 border-[#FFD700] pl-6 py-1">
+                        <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
+                            <span className="block mb-1">Part I: Biological and</span>
+                            <span className="block">Mechanical Foundations</span>
+                        </h2>
+                    </div>
+
+                    <div className="border-l-2 border-[#FFD700] pl-6 py-1">
+                        <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
+                            <span className="block mb-1">Part II: Mathematical</span>
+                            <span className="block">Logic and Modeling</span>
+                        </h2>
+                    </div>
+
+                    <div className="border-l-2 border-[#FFD700] pl-6 py-1">
+                        <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
+                            <span className="block mb-1">Part III: Complexity and</span>
+                            <span className="block">Emergence</span>
+                        </h2>
+                    </div>
+
+                    <div className="border-l-2 border-[#FFD700] pl-6 py-1">
+                        <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
+                            <span className="block mb-1">Part IV: Advanced</span>
+                            <span className="block">Adaptive Intelligence</span>
+                        </h2>
+                    </div>
+
+                    <div className="border-l-2 border-[#FFD700] pl-6 py-1">
+                        <h2 className="font-mono text-[#FFD700] tracking-widest text-sm font-bold uppercase leading-relaxed">
+                            <span className="block mb-1">Part V: Synthesis and</span>
+                            <span className="block">Professional Roadmap</span>
+                        </h2>
+                    </div>
+                </div>
+
+                {/* Footer Section */}
+                <div className="absolute bottom-16 w-full max-w-md px-12 text-center">
+                    <div className="w-full h-px bg-white/10 mb-6"></div>
+                    <p className="font-mono text-white/40 text-[10px] tracking-[0.3em] uppercase">
+                        Systems Intelligence Framework<br />
+                        <span className="mt-2 block">V3.0</span>
+                    </p>
+                </div>
+            </div>
 
             {/* Content over video */}
             <div className="relative z-20 text-center max-w-4xl px-4">
