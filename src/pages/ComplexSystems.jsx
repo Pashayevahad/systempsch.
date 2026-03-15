@@ -102,15 +102,6 @@ const ComplexSystems = () => {
                         </h2>
                     </div>
                 </div>
-
-                {/* Footer Section */}
-                <div className="relative w-full max-w-sm px-4 mt-8 mb-8">
-                    <div className="w-full h-px bg-white/10 mb-6"></div>
-                    <p className="font-mono text-white/40 text-[10px] tracking-[0.3em] uppercase">
-                        Systems Intelligence Framework<br />
-                        <span className="mt-2 block">V3.0</span>
-                    </p>
-                </div>
             </div>
 
             {/* Content over video */}
