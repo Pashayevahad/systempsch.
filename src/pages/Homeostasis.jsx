@@ -93,7 +93,7 @@ const Homeostasis = () => {
                     {/* Background card with top offset text */}
                     <div className="bg-[#15100C] border border-[#2A1D13] rounded-[2rem] p-8 md:p-12 pt-20 relative">
                         {/* Section Header */}
-                        <div className="absolute -top-6 left-8 md:left-12 flex items-start">
+                        <div className="absolute -top-8 left-8 md:left-12 flex items-start">
                             <span className="text-[#D4AF37] font-serif text-2xl font-bold mr-4 mt-1">03.</span>
                             <h2 className="text-3xl md:text-4xl font-serif text-white">The Regulatory<br />Circuit</h2>
                         </div>
