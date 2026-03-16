@@ -5,6 +5,7 @@ import ComplexSystems from './pages/ComplexSystems';
 import BusinessPsychology from './pages/BusinessPsychology';
 import LinguisticPsychology from './pages/LinguisticPsychology';
 import Homeostasis from './pages/Homeostasis';
+import InternalEnvironment from './pages/InternalEnvironment';
 import Navbar from './components/Navbar';
 
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
           <Route path="/business-psychology" element={<BusinessPsychology />} />
           <Route path="/linguistic-psych" element={<LinguisticPsychology />} />
           <Route path="/chapter-1" element={<Homeostasis />} />
+          <Route path="/internal-environment" element={<InternalEnvironment />} />
         </Routes>
       </div>
     </Router>

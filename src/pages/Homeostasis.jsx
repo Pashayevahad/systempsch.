@@ -58,13 +58,17 @@ const Homeostasis = () => {
                 <div className="relative pl-12 mb-20">
                     <div className="absolute left-0 top-1 text-[#D4AF37] font-serif text-2xl font-bold">01.</div>
                     <div className="absolute left-[36px] top-10 bottom-0 w-[1px] bg-white/10"></div>
-                    <h2 className="text-3xl font-serif text-white mb-6">The Internal<br />Environment</h2>
-                    <p className="text-gray-300 leading-relaxed text-lg font-sans">
-                        Before we can understand complex systems, we must look at the origin of biological stability.
-                        <span className="text-[#D95A11] italic font-semibold mx-1">Claude Bernard's milieu intérieur</span>
-                        establishes that for a cell to function, the fluids surrounding it must remain constant. This
-                        necessity of internal stability is the bedrock upon which all adaptive behavior is built.
-                    </p>
+                    <Link to="/internal-environment" className="block cursor-pointer group">
+                        <h2 className="text-3xl font-serif text-white mb-6 group-hover:text-[#D95A11] transition-colors">
+                            The Internal<br />Environment
+                        </h2>
+                        <p className="text-gray-300 leading-relaxed text-lg font-sans group-hover:text-gray-200 transition-colors">
+                            Before we can understand complex systems, we must look at the origin of biological stability.
+                            <span className="text-[#D95A11] italic font-semibold mx-1">Claude Bernard's milieu intérieur</span>
+                            establishes that for a cell to function, the fluids surrounding it must remain constant. This
+                            necessity of internal stability is the bedrock upon which all adaptive behavior is built.
+                        </p>
+                    </Link>
                 </div>
 
                 {/* Section 02 */}
