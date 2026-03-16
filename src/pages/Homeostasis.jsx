@@ -89,17 +89,17 @@ const Homeostasis = () => {
                 </div>
 
                 {/* Section 03 - Regulatory Circuit */}
-                <div className="relative mt-32">
-                    {/* Background card with top offset text */}
-                    <div className="bg-[#15100C] border border-[#2A1D13] rounded-[2rem] p-8 md:p-12 pt-20 relative">
+                <div className="relative mt-24">
+                    {/* Background card */}
+                    <div className="bg-[#15100C] border border-[#2A1D13] rounded-[2rem] p-8 md:p-12">
                         {/* Section Header */}
-                        <div className="absolute -top-8 left-8 md:left-12 flex items-start">
-                            <span className="text-[#D4AF37] font-serif text-2xl font-bold mr-4 mt-1">03.</span>
+                        <div className="flex items-start mb-10 pl-2">
+                            <span className="text-[#D4AF37] font-serif text-2xl font-bold mr-4 mt-[0.35rem]">03.</span>
                             <h2 className="text-3xl md:text-4xl font-serif text-white">The Regulatory<br />Circuit</h2>
                         </div>
 
                         {/* Cards Grid */}
-                        <div className="flex flex-col space-y-4 mt-8">
+                        <div className="flex flex-col space-y-4">
 
                             {/* Card 1 */}
                             <div className="bg-[#1C1410] rounded-2xl p-6 border border-white/5 flex flex-col items-center text-center">
