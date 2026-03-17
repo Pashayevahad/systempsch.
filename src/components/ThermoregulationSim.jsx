@@ -224,13 +224,22 @@ const ThermoregulationSim = () => {
             ctx.save(); ctx.fillStyle = 'rgba(15, 23, 42, 0.75)'; ctx.strokeStyle = 'rgba(71, 85, 105, 0.6)'; ctx.lineWidth = 1;
             ctx.beginPath(); if (ctx.roundRect) ctx.roundRect(gX, gY, gW, gH, 8); else ctx.rect(gX, gY, gW, gH);
             ctx.fill(); ctx.stroke();
-            const padL = 35, padR = 15, padT = 30, padB = 25;
+            const padL = 35, padR = 15, padT = 30, padB = 30;
             const chartW = gW - padL - padR, chartH = gH - padT - padB;
             const minT = 0, maxT = 50;
+            const maxTime = Math.max(1, simTime);
+
             ctx.fillStyle = 'rgba(148, 163, 184, 0.6)'; ctx.font = '9px sans-serif'; ctx.textAlign = 'right';
             [0, 15, 30, 45].forEach(t => { let y = gY + padT + chartH - ((t - minT) / (maxT - minT)) * chartH; ctx.fillText(t + '°', gX + padL - 5, y); });
+
+            ctx.textAlign = 'center';
+            for (let i = 0; i <= 4; i++) {
+                let tVal = (maxTime * (i / 4)).toFixed(1);
+                let xPos = gX + padL + (i / 4) * chartW;
+                ctx.fillText(tVal + 'h', xPos, gY + padT + chartH + 12);
+            }
+
             if (tempHistory.length > 1) {
-                const maxTime = Math.max(1, simTime);
                 ctx.beginPath(); ctx.strokeStyle = '#fbbf24'; ctx.lineWidth = 2;
                 tempHistory.forEach((pt, i) => { let x = gX + padL + (pt.time / maxTime) * chartW, y = gY + padT + chartH - ((pt.shell - minT) / (maxT - minT)) * chartH; if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
                 ctx.stroke();
@@ -243,7 +252,7 @@ const ThermoregulationSim = () => {
             ctx.fillStyle = 'rgba(148, 163, 184, 0.6)';
             ctx.font = 'bold 9px sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('TIME (HOURS)', gX + (gW / 2) + 10, gY + gH - 8);
+            ctx.fillText('TIME (HOURS)', gX + (gW / 2) + 10, gY + gH - 5);
 
             ctx.restore();
         }
