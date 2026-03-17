@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const RegulatoryCircuit = () => {
+    const [activeTab, setActiveTab] = useState('theory');
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -33,124 +34,156 @@ const RegulatoryCircuit = () => {
                     <div className="w-16 h-1 bg-[#D95A11] mt-6"></div>
                 </div>
 
-                {/* Thermostat Metaphor Card */}
-                <div className="border border-[#2A1D13] rounded-[2rem] p-8 md:p-10 bg-[#120D0A] mb-16 relative overflow-hidden">
+                {/* Tabs */}
+                <div className="flex bg-[#160D07] rounded-[0.8rem] p-1.5 mb-10 overflow-hidden border border-[#2A1D13]">
+                    <button
+                        onClick={() => setActiveTab('theory')}
+                        className={`flex-1 py-3 px-4 rounded-lg text-[13px] font-bold tracking-wider transition-all duration-300 ${activeTab === 'theory' ? 'bg-[#D95A11] text-white shadow-md' : 'text-[#8A5A38] hover:text-[#D95A11]'}`}
+                    >
+                        Theory
+                    </button>
+                    <button
+                        onClick={() => setActiveTab('simulation')}
+                        className={`flex-1 py-3 px-4 rounded-lg text-[13px] font-bold tracking-wider transition-all duration-300 ${activeTab === 'simulation' ? 'bg-[#D95A11] text-white shadow-md' : 'text-[#8A5A38] hover:text-[#D95A11]'}`}
+                    >
+                        Simulation
+                    </button>
+                </div>
 
-                    <div className="relative z-10">
-                        <div className="flex items-center mb-8">
-                            <div className="w-10 h-10 bg-[#3A1F0D] rounded-lg flex items-center justify-center mr-4">
-                                <svg className="w-5 h-5 text-[#E65C00]" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                {/* Tab Content Area */}
+                <div className="tab-content transition-opacity duration-300 min-h-[400px]">
+                    {activeTab === 'theory' ? (
+                        <>
+                            {/* Thermostat Metaphor Card */}
+                            <div className="border border-[#2A1D13] rounded-[2rem] p-8 md:p-10 bg-[#120D0A] mb-16 relative overflow-hidden">
+
+                                <div className="relative z-10">
+                                    <div className="flex items-center mb-8">
+                                        <div className="w-10 h-10 bg-[#3A1F0D] rounded-lg flex items-center justify-center mr-4">
+                                            <svg className="w-5 h-5 text-[#E65C00]" fill="currentColor" viewBox="0 0 24 24">
+                                                <path d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                            </svg>
+                                        </div>
+                                        <h2 className="text-2xl font-sans font-bold text-white">The Thermostat<br />Metaphor</h2>
+                                    </div>
+
+                                    <p className="text-gray-400 text-[15px] mb-8 leading-relaxed">
+                                        Think of the heating system in your house. To keep a constant temperature, three parts must work together.
+                                    </p>
+
+                                    <div className="space-y-8">
+                                        {/* Step 1 */}
+                                        <div className="flex">
+                                            <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">1.</div>
+                                            <div>
+                                                <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
+                                                    The Receptor <span className="text-gray-500 font-normal normal-case tracking-normal">(The Sensor Input)</span>
+                                                </h3>
+                                                <p className="text-gray-400 text-[14px] leading-relaxed">
+                                                    The thermometer on the wall that detects the room is getting cold.
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Step 2 */}
+                                        <div className="flex">
+                                            <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">2.</div>
+                                            <div>
+                                                <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
+                                                    The Control Center <span className="text-gray-500 font-normal normal-case tracking-normal">(Process Input vs Set Point, Decide Action)</span>
+                                                </h3>
+                                                <p className="text-gray-400 text-[14px] leading-relaxed">
+                                                    The computer inside the thermostat that decides "It's too cold, turn on the heat."
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        {/* Step 3 */}
+                                        <div className="flex">
+                                            <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">3.</div>
+                                            <div>
+                                                <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
+                                                    The Effector <span className="text-gray-500 font-normal normal-case tracking-normal">(The Actor - Creates Response - Heater)</span>
+                                                </h3>
+                                                <p className="text-gray-400 text-[14px] leading-relaxed">
+                                                    The furnace that actually kicks on and blows warm air. It can increase heat or decrease or remain as it is.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Return Loop Takeaway Section */}
+                            <div className="pl-5 border-l-[3px] border-[#E65C00] mb-20">
+                                <div className="text-[#E65C00] text-[10px] font-bold tracking-widest uppercase mb-4">Takeaway</div>
+                                <p className="text-2xl text-white font-sans font-medium leading-[1.4]">
+                                    "Life is a loop. We don't just react to the world; we <span className="text-[#E65C00]">regulate against it</span> through these three steps."
+                                </p>
+                            </div>
+
+
+                            {/* Flow Diagram Graphic */}
+                            <div className="relative flex flex-col items-center justify-center mb-24 py-10 w-full">
+
+                                {/* SENSORS */}
+                                <div className="relative text-center w-48 py-4 border border-[#1A2642] bg-[#0A101C] rounded shadow-[0_0_15px_rgba(26,38,66,0.3)] z-10">
+                                    <div className="text-[#8BB3E6] font-bold text-[11px] tracking-widest uppercase mb-1">Sensors</div>
+                                    <div className="text-[#4C8CBF] font-bold text-[10px] tracking-widest uppercase mb-1">Input</div>
+                                    <div className="text-gray-500 text-[10px]">Detects Change</div>
+                                </div>
+
+                                {/* Arrow down */}
+                                <div className="h-10 flex items-center justify-center text-[#4C8CBF] z-10">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                    </svg>
+                                </div>
+
+                                {/* CONTROL */}
+                                <div className="relative text-center w-48 py-4 border border-[#4A2610] bg-[#1A100B] rounded shadow-[0_0_15px_rgba(74,38,16,0.3)] z-10">
+                                    <div className="text-[#D95A11] font-bold text-[11px] tracking-widest uppercase mb-1">Control</div>
+                                    <div className="text-[#B3450B] font-bold text-[10px] tracking-widest uppercase mb-1">Process</div>
+                                    <div className="text-gray-500 text-[10px]">Decides Action</div>
+                                </div>
+
+                                {/* Arrow down */}
+                                <div className="h-10 flex items-center justify-center text-[#D95A11] z-10">
+                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                                    </svg>
+                                </div>
+
+                                {/* EFFECTOR */}
+                                <div className="relative text-center w-48 py-4 border border-[#103A2A] bg-[#0B1A14] rounded shadow-[0_0_15px_rgba(16,58,42,0.3)] z-10">
+                                    <div className="text-[#4CAF50] font-bold text-[11px] tracking-widest uppercase mb-1">Effector</div>
+                                    <div className="text-[#388E3C] font-bold text-[10px] tracking-widest uppercase mb-1">Output</div>
+                                    <div className="text-gray-500 text-[10px]">Creates Response</div>
+                                </div>
+
+                                {/* Negative Feedback Arc */}
+                                <div className="absolute right-0 top-1/2 -translate-y-[45%] flex items-center justify-end w-full max-w-[320px] pointer-events-none z-0">
+                                    <svg className="h-[260px] w-[140px]" viewBox="0 0 100 200" fill="none">
+                                        <path d="M 10 10 C 130 10, 130 190, 10 190" stroke="#4C8CBF" strokeWidth="1" strokeDasharray="4 4" fill="none" />
+                                        <polygon points="10,10 18,6 18,14" fill="#4C8CBF" />
+                                    </svg>
+                                    <div className="absolute right-[-20px] translate-x-full rotate-90 text-[#4C8CBF] text-[9px] font-bold tracking-[0.2em] whitespace-nowrap">
+                                        NEGATIVE FEEDBACK
+                                    </div>
+                                </div>
+                            </div>
+                        </>
+                    ) : (
+                        <div className="flex flex-col items-center justify-center py-20 text-center border border-[#2A1D13] rounded-[2rem] p-8 lg:p-16 bg-[#120D0A] mb-16">
+                            <span className="text-[#3A1F0D] mb-6">
+                                <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
                                 </svg>
-                            </div>
-                            <h2 className="text-2xl font-sans font-bold text-white">The Thermostat<br />Metaphor</h2>
+                            </span>
+                            <h2 className="text-2xl font-serif text-white mb-3">Interactive Simulation</h2>
+                            <p className="text-gray-500 text-sm max-w-[280px]">This interactive module is currently being calibrated. Check back later to test the thermostat simulation.</p>
                         </div>
-
-                        <p className="text-gray-400 text-[15px] mb-8 leading-relaxed">
-                            Think of the heating system in your house. To keep a constant temperature, three parts must work together.
-                        </p>
-
-                        <div className="space-y-8">
-                            {/* Step 1 */}
-                            <div className="flex">
-                                <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">1.</div>
-                                <div>
-                                    <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
-                                        The Receptor <span className="text-gray-500 font-normal normal-case tracking-normal">(The Sensor Input)</span>
-                                    </h3>
-                                    <p className="text-gray-400 text-[14px] leading-relaxed">
-                                        The thermometer on the wall that detects the room is getting cold.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Step 2 */}
-                            <div className="flex">
-                                <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">2.</div>
-                                <div>
-                                    <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
-                                        The Control Center <span className="text-gray-500 font-normal normal-case tracking-normal">(Process Input vs Set Point, Decide Action)</span>
-                                    </h3>
-                                    <p className="text-gray-400 text-[14px] leading-relaxed">
-                                        The computer inside the thermostat that decides "It's too cold, turn on the heat."
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Step 3 */}
-                            <div className="flex">
-                                <div className="text-[#E65C00] font-bold text-lg mr-4 mt-0.5">3.</div>
-                                <div>
-                                    <h3 className="text-[#F2C94C] text-[13px] font-bold tracking-wider mb-1 uppercase">
-                                        The Effector <span className="text-gray-500 font-normal normal-case tracking-normal">(The Actor - Creates Response - Heater)</span>
-                                    </h3>
-                                    <p className="text-gray-400 text-[14px] leading-relaxed">
-                                        The furnace that actually kicks on and blows warm air. It can increase heat or decrease or remain as it is.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Return Loop Takeaway Section */}
-                <div className="pl-5 border-l-[3px] border-[#E65C00] mb-20">
-                    <div className="text-[#E65C00] text-[10px] font-bold tracking-widest uppercase mb-4">Takeaway</div>
-                    <p className="text-2xl text-white font-sans font-medium leading-[1.4]">
-                        "Life is a loop. We don't just react to the world; we <span className="text-[#E65C00]">regulate against it</span> through these three steps."
-                    </p>
-                </div>
-
-
-                {/* Flow Diagram Graphic */}
-                <div className="relative flex flex-col items-center justify-center mb-24 py-10 w-full">
-
-                    {/* SENSORS */}
-                    <div className="relative text-center w-48 py-4 border border-[#1A2642] bg-[#0A101C] rounded shadow-[0_0_15px_rgba(26,38,66,0.3)] z-10">
-                        <div className="text-[#8BB3E6] font-bold text-[11px] tracking-widest uppercase mb-1">Sensors</div>
-                        <div className="text-[#4C8CBF] font-bold text-[10px] tracking-widest uppercase mb-1">Input</div>
-                        <div className="text-gray-500 text-[10px]">Detects Change</div>
-                    </div>
-
-                    {/* Arrow down */}
-                    <div className="h-10 flex items-center justify-center text-[#4C8CBF] z-10">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                    </div>
-
-                    {/* CONTROL */}
-                    <div className="relative text-center w-48 py-4 border border-[#4A2610] bg-[#1A100B] rounded shadow-[0_0_15px_rgba(74,38,16,0.3)] z-10">
-                        <div className="text-[#D95A11] font-bold text-[11px] tracking-widest uppercase mb-1">Control</div>
-                        <div className="text-[#B3450B] font-bold text-[10px] tracking-widest uppercase mb-1">Process</div>
-                        <div className="text-gray-500 text-[10px]">Decides Action</div>
-                    </div>
-
-                    {/* Arrow down */}
-                    <div className="h-10 flex items-center justify-center text-[#D95A11] z-10">
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                        </svg>
-                    </div>
-
-                    {/* EFFECTOR */}
-                    <div className="relative text-center w-48 py-4 border border-[#103A2A] bg-[#0B1A14] rounded shadow-[0_0_15px_rgba(16,58,42,0.3)] z-10">
-                        <div className="text-[#4CAF50] font-bold text-[11px] tracking-widest uppercase mb-1">Effector</div>
-                        <div className="text-[#388E3C] font-bold text-[10px] tracking-widest uppercase mb-1">Output</div>
-                        <div className="text-gray-500 text-[10px]">Creates Response</div>
-                    </div>
-
-                    {/* Negative Feedback Arc */}
-                    <div className="absolute right-0 top-1/2 -translate-y-[45%] flex items-center justify-end w-full max-w-[320px] pointer-events-none z-0">
-                        <svg className="h-[260px] w-[140px]" viewBox="0 0 100 200" fill="none">
-                            <path d="M 10 10 C 130 10, 130 190, 10 190" stroke="#4C8CBF" strokeWidth="1" strokeDasharray="4 4" fill="none" />
-                            <polygon points="10,10 18,6 18,14" fill="#4C8CBF" />
-                        </svg>
-                        <div className="absolute right-[-20px] translate-x-full rotate-90 text-[#4C8CBF] text-[9px] font-bold tracking-[0.2em] whitespace-nowrap">
-                            NEGATIVE FEEDBACK
-                        </div>
-                    </div>
-
+                    )}
                 </div>
 
                 {/* Footer Action */}
