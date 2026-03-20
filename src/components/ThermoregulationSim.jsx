@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-const ThermoregulationSim = () => {
+const ThermoregulationSim = ({ onUpdate }) => {
     const containerRef = useRef(null);
     const [envTemp, setEnvTemp] = useState(20);
 
@@ -215,6 +215,7 @@ const ThermoregulationSim = () => {
             if (hydroBar) hydroBar.style.width = hydration + "%";
 
             simTime += 0.003; frameCount++;
+            if (onUpdate && frameCount % 2 === 0) onUpdate(coreTemp);
             if (frameCount % 5 === 0) {
                 tempHistory.push({ time: simTime, core: coreTemp, shell: shellTemp });
                 if (tempHistory.length > 2000) tempHistory.shift();

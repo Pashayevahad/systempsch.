@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ThermoregulationSim from '../components/ThermoregulationSim';
+import StabilityLandscape from '../components/StabilityLandscape';
 
 const RegulatoryCircuit = () => {
     const [activeTab, setActiveTab] = useState('theory');
+    const [coreTemp, setCoreTemp] = useState(37.0);
 
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -199,7 +201,10 @@ const RegulatoryCircuit = () => {
                                     </div>
                                 </div>
                             ) : (
-                                <ThermoregulationSim />
+                                <div className="space-y-6">
+                                    <ThermoregulationSim onUpdate={(t) => setCoreTemp(t)} />
+                                    <StabilityLandscape coreTemp={coreTemp} />
+                                </div>
                             )}
                         </div>
                     </div>
