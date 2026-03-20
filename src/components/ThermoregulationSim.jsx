@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ThermoregulationSim = () => {
     const containerRef = useRef(null);
+    const [envTemp, setEnvTemp] = useState(20);
 
     useEffect(() => {
         const simCanvas = document.getElementById('simCanvas');
@@ -28,7 +29,7 @@ const ThermoregulationSim = () => {
         const shellTempBar = document.getElementById('shellTempBar');
 
         let width, height, centerX, centerY;
-        let envTemp = 20, coreTemp = 37.0, shellTemp = 33.0, energy = 100.0, hydration = 100.0, isDead = false;
+        let envTempLocal = 20, coreTemp = 37.0, shellTemp = 33.0, energy = 100.0, hydration = 100.0, isDead = false;
         let simTime = 0, tempHistory = [], frameCount = 0;
         let animationFrameId;
 
@@ -88,7 +89,9 @@ const ThermoregulationSim = () => {
 
         function resetSim() {
             isDead = false; coreTemp = 37.0; shellTemp = 33.0; energy = 100; hydration = 100;
-            envSlider.value = 20; simTime = 0; tempHistory = []; frameCount = 0;
+            envSlider.value = 20;
+            setEnvTemp(20);
+            simTime = 0; tempHistory = []; frameCount = 0;
             for (let k in regulators) regulators[k] = false;
             updateButtonsUI();
             if (failurePanel) failurePanel.classList.add('hidden');
@@ -105,11 +108,11 @@ const ThermoregulationSim = () => {
 
         function update() {
             if (isDead) return;
-            envTemp = parseInt(envSlider.value);
-            if (envValDisplay) envValDisplay.textContent = envTemp > 0 ? `+${envTemp}°C` : `${envTemp}°C`;
+            envTempLocal = parseInt(envSlider.value);
+            if (envValDisplay) envValDisplay.textContent = envTempLocal > 0 ? `+${envTempLocal}°C` : `${envTempLocal}°C`;
 
             // COLD ZONE
-            if (envTemp < 20) {
+            if (envTempLocal < 20) {
                 regulators.vasodilation = false; regulators.sweat = false;
 
                 coreTemp -= 0.002;
@@ -117,7 +120,7 @@ const ThermoregulationSim = () => {
 
                 if (energy > 0) {
                     regulators.vaso = true;
-                    regulators.shiver = (coreTemp < 36.8 || envTemp < 5);
+                    regulators.shiver = (coreTemp < 36.8 || envTempLocal < 5);
 
                     if (regulators.shiver) coreTemp += 0.0015;
                     if (regulators.vaso) shellTemp -= 0.002;
@@ -142,7 +145,7 @@ const ThermoregulationSim = () => {
                 }
 
                 // HEAT ZONE
-            } else if (envTemp > 25) {
+            } else if (envTempLocal > 25) {
                 regulators.vaso = false; regulators.shiver = false;
 
                 coreTemp += 0.002;
@@ -150,7 +153,7 @@ const ThermoregulationSim = () => {
 
                 if (hydration > 0) {
                     regulators.vasodilation = true;
-                    regulators.sweat = (coreTemp > 37.5 || envTemp > 35);
+                    regulators.sweat = (coreTemp > 37.5 || envTempLocal > 35);
 
                     if (regulators.sweat) coreTemp -= 0.0015;
                     if (regulators.vasodilation) shellTemp += 0.002;
@@ -262,25 +265,18 @@ const ThermoregulationSim = () => {
 
             update();
 
-            if (envTemp < 10) {
-                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(envTemp - 10) / 60})`;
-                particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); p.x += p.speed + (Math.abs(envTemp) / 10); if (p.x > width) p.x = 0; });
-            } else if (envTemp > 35) {
-                ctx.fillStyle = `rgba(239, 68, 68, ${(envTemp - 35) / 100})`;
+            if (envTempLocal < 10) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(envTempLocal - 10) / 60})`;
+                particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); p.x += p.speed + (Math.abs(envTempLocal) / 10); if (p.x > width) p.x = 0; });
+            } else if (envTempLocal > 35) {
+                ctx.fillStyle = `rgba(239, 68, 68, ${(envTempLocal - 35) / 100})`;
                 particles.forEach(p => { ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2); ctx.fill(); p.y -= p.speed * 0.5; if (p.y < 0) p.y = height; });
             }
             pulsePhase += (regulators.shiver ? 0.3 : 0.05);
             let drawX = centerX + (regulators.shiver ? (Math.random() - 0.5) * 5 : 0), drawY = centerY + (regulators.shiver ? (Math.random() - 0.5) * 5 : 0) - (width < 768 ? 80 : 0);
 
-            let shellColor = envTemp < 20 ? "#38bdf8" : (envTemp > 25 ? "#ef4444" : getTempColor(shellTemp));
-
-            let shellR = 115;
-            ctx.beginPath(); ctx.arc(drawX, drawY, shellR, 0, Math.PI * 2);
-            ctx.fillStyle = shellColor; ctx.globalAlpha = 0.3; ctx.fill();
-            ctx.globalAlpha = 1; ctx.strokeStyle = shellColor; ctx.lineWidth = regulators.vaso ? 2 : (regulators.vasodilation ? 10 : 6); ctx.stroke();
-            let coreR = 55 + Math.sin(pulsePhase) * 3;
-            ctx.beginPath(); ctx.arc(drawX, drawY, coreR, 0, Math.PI * 2);
-            ctx.fillStyle = getTempColor(coreTemp); ctx.shadowBlur = 30; ctx.shadowColor = getTempColor(coreTemp); ctx.fill(); ctx.shadowBlur = 0;
+            // Image replaces circles at the top, but we keep the canvas for particles and graph.
+            const shellR = 115;
             if (regulators.sweat) {
                 ctx.fillStyle = 'rgba(96, 165, 250, 0.8)';
                 for (let i = 0; i < 12; i++) { let a = (Date.now() / 300 + i) % (Math.PI * 2); ctx.beginPath(); ctx.arc(drawX + Math.cos(a) * shellR, drawY + Math.sin(a) * shellR, 3, 0, Math.PI * 2); ctx.fill(); }
@@ -332,7 +328,26 @@ const ThermoregulationSim = () => {
 
             {/* Main Content Area */}
             <main className="flex-grow relative flex items-center justify-center overflow-hidden">
-                <canvas id="simCanvas" className="block touch-none"></canvas>
+                {/* Dynamic Image Display with Crossfade */}
+                <div className="absolute inset-0 flex items-center justify-center p-8 pointer-events-none">
+                    <img
+                        src="/body-cold.jpg"
+                        alt="Body Cold"
+                        className={`absolute max-h-[70%] w-auto transition-opacity duration-700 object-contain ${envTemp < 20 ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    <img
+                        src="/body-neutral.jpg"
+                        alt="Body Neutral"
+                        className={`absolute max-h-[70%] w-auto transition-opacity duration-700 object-contain ${(envTemp >= 20 && envTemp <= 24) ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                    <img
+                        src="/body-heat.jpg"
+                        alt="Body Heat"
+                        className={`absolute max-h-[70%] w-auto transition-opacity duration-700 object-contain ${envTemp > 24 ? 'opacity-100' : 'opacity-0'}`}
+                    />
+                </div>
+
+                <canvas id="simCanvas" className="block touch-none relative z-10"></canvas>
 
                 <div id="statusOverlay" className="absolute top-24 md:top-6 left-0 w-full pointer-events-none transition-all duration-500 text-center">
                     <h2 id="stateLabel" className="text-3xl md:text-4xl font-black uppercase tracking-widest opacity-20 transition-colors duration-300">Homeostasis</h2>
@@ -360,7 +375,15 @@ const ThermoregulationSim = () => {
                                 <label className="text-xs md:text-sm font-semibold uppercase tracking-wider text-slate-400">External Environment</label>
                                 <span id="envVal" className="text-slate-200 font-mono font-bold text-lg md:text-xl">20°C</span>
                             </div>
-                            <input type="range" id="envSlider" min="-50" max="50" defaultValue="20" className="thermo-sim-slider w-full h-2 bg-gradient-to-r from-cyan-600 via-slate-400 to-red-600 rounded-lg appearance-none cursor-pointer outline-none" />
+                            <input
+                                type="range"
+                                id="envSlider"
+                                min="-50"
+                                max="50"
+                                value={envTemp}
+                                onChange={(e) => setEnvTemp(parseInt(e.target.value))}
+                                className="thermo-sim-slider w-full h-2 bg-gradient-to-r from-cyan-600 via-slate-400 to-red-600 rounded-lg appearance-none cursor-pointer outline-none"
+                            />
                             <div className="flex justify-between text-[8px] md:text-[10px] font-bold text-slate-500 tracking-wider mt-1">
                                 <span>COLD ZONE (&lt;20°C)</span>
                                 <span>NEUTRAL (20-24°C)</span>
