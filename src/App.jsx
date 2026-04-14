@@ -15,6 +15,7 @@ import CyberneticSimulation from './pages/CyberneticSimulation';
 import FirstOrderCybernetics from './pages/FirstOrderCybernetics';
 import BehaviorTaxonomy from './pages/BehaviorTaxonomy';
 import NeuralSimulation from './pages/NeuralSimulation';
+import ComplexSystemsHome from './pages/ComplexSystemsHome';
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
           <Route path="/regulatory-circuit" element={<RegulatoryCircuit />} />
           <Route path="/autonomic-simulation" element={<AutonomicSimulation />} />
           <Route path="/cybernetic-simulation" element={<CyberneticSimulation />} />
+          <Route path="/complex-systems-home" element={<ComplexSystemsHome />} />
         </Routes>
       </div>
     </Router>
